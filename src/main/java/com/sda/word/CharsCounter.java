@@ -24,9 +24,14 @@ public class CharsCounter implements Countable {
         try {
             List<String> lines = Files.readAllLines(Paths.get(filePath));
             System.out.println(lines.get(0));
-            return lines.toString().replace(" ","").replace("[","").replace("]","").replace(",","").length();
+            System.out.println(lines.get(1));
+            //return lines.toString().replace(" ","").replace("[","").replace("]","").replace(",","").length();
 
-            //return lines.stream().mapToInt(String::length).sum();
+            return lines
+                    .stream()
+                    .filter(line -> !" ".equals(line) || !",".equals(line) || !"[".equals(line) || !"]".equals(line))
+                    .mapToInt(String::length)
+                    .sum();
             //List<String> charCounter = lines.stream().map
         } catch (IOException e) {
             e.printStackTrace();
