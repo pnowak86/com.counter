@@ -6,6 +6,12 @@ package com.sda.word;
 public interface Countable {
 
 
+
     int countLines(String filePath);
+
+
+    int count (String filePath);
+
+    
 
 }
