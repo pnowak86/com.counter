@@ -6,6 +6,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 
+import static com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolver.length;
+
 /**
  * Created by RENT on 2017-07-05.
  */
@@ -22,8 +24,9 @@ public class CharsCounter implements Countable {
         try {
             List<String> lines = Files.readAllLines(Paths.get(filePath));
             System.out.println(lines.get(0));
-            lines.toString().replaceAll(" ","");
-            return lines.stream().mapToInt(String::length).sum();
+            return lines.toString().replace(" ","").replace("[","").replace("]","").replace(",","").length();
+
+            //return lines.stream().mapToInt(String::length).sum();
             //List<String> charCounter = lines.stream().map
         } catch (IOException e) {
             e.printStackTrace();
