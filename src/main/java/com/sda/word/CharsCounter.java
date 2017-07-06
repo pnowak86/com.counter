@@ -3,8 +3,11 @@ package com.sda.word;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import static com.sun.org.apache.xml.internal.security.keys.keyresolver.KeyResolver.length;
 
@@ -21,34 +24,21 @@ public class CharsCounter implements Countable {
         int wordsCount = 0;
         boolean prev = true;
         //List<String> chars = null;
-        try {
-            List<String> lines = Files.readAllLines(Paths.get(filePath));
-            System.out.println(lines.get(0));
-            System.out.println(lines.get(1));
-            //return lines.toString().replace(" ","").replace("[","").replace("]","").replace(",","").length();
+            List<String> lines = null;
+            try {
+                lines = Files.readAllLines(Paths.get(filePath));
+                System.out.println(lines.get(0));
+                System.out.println(lines.get(1));
+                List<String> words = new ArrayList<>();
+                lines.forEach(line -> Collections.addAll(words, line.split(" ")));
+                for (String word : words) {
+                    charsCount += word.length();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
 
-            return lines
-                    .stream()
-                    .filter(line -> !" ".equals(line) || !",".equals(line) || !"[".equals(line) || !"]".equals(line))
-                    .mapToInt(String::length)
-                    .sum();
-            //List<String> charCounter = lines.stream().map
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }}
-        /*
-        Scanner in = new Scanner(filePath);
-        //while (in.hasNextLine()){
-        //String line = in.nextLine();
-        //Scanner lineScanner = new Scanner(line);
-        while (in.hasNext()) {
-            wordsCount++;
-            String word = in.next();
-            charsCount += word.length();
-        }
-        in.close();
+            }
         return charsCount;
     }
-}*/
+
+}
